@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.example.testplanify.launchView.launchView
+import com.example.testplanify.launchView.launchView2
 import com.example.testplanify.loginView.loginView
 import com.example.testplanify.ui.theme.TestPlanifyTheme
 
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TestPlanifyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    launchView(modifier = Modifier.padding(innerPadding))
+                    launchView(Modifier.padding(innerPadding))
                 }
             }
         }

@@ -1,9 +1,8 @@
 package com.example.testplanify.loginView
 
 
-import android.R.attr.textStyle
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,14 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,20 +31,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import com.example.testplanify.ui.theme.PrimaryColor
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.testplanify.R
 import com.example.testplanify.letterStles
 import com.example.testplanify.ui.theme.FourthColor
-import com.example.testplanify.ui.theme.SecondColor
 import com.example.testplanify.ui.theme.ThirdColor
-import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 
 @Composable
@@ -146,7 +148,10 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
             .heightIn(min = 45.dp)
             .clip(RoundedCornerShape(10.dp)),
         textStyle = TextStyle(fontSize = 18.sp, color = Color.Black), // Texto negro para mejor visibilidad
+        placeholder = {Text(text = "Email")},
+        maxLines = 1,
         singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,
@@ -158,6 +163,7 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
 
 @Composable
 fun Password(password: String, onTextChanged: (String) -> Unit) {
+    var passordVisibility by remember { mutableStateOf(false) }
     TextField(
         value = password,
         onValueChange = { onTextChanged(it) },
@@ -166,13 +172,31 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
             .heightIn(min = 45.dp)
             .clip(RoundedCornerShape(10.dp)),
         textStyle = TextStyle(fontSize = 18.sp, color = Color.Black),
+        placeholder = {Text(text = "Contraseña")},
+        maxLines = 1,
         singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,
             disabledContainerColor = Color.White,
             cursorColor = Color.Black
-        )
+        ),
+        trailingIcon = {
+            val imagen = if (passordVisibility){
+                Icons.Filled.VisibilityOff
+            }else{
+                Icons.Filled.Visibility
+            }
+            IconButton(onClick = {passordVisibility =! passordVisibility}) {
+                Icon(imageVector = imagen, contentDescription = "show password")
+            }
+        },
+        visualTransformation = if (passordVisibility){
+            VisualTransformation.None
+        }else{
+            PasswordVisualTransformation()
+        }
     )
 }
 
